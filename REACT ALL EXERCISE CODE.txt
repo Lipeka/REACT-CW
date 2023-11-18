@@ -1,0 +1,199 @@
+DAY-2
+PASS OR FAIL
+1)APP.JS
+import PassMessage from './PassMessage';
+import FailMessage from './FailMessage';
+
+function App(props) {
+    const isPass = props.isPass;
+    if(isPass)
+    {
+      return <PassMessage />;
+    }
+    else
+    {
+      return <FailMessage />
+    }
+}
+export default App;
+
+2)PASSMESSAGE.JS
+import React from "react";
+import App from "./App";
+
+function PassMessage() {
+    const style = {
+        textAlign: 'center',
+        color: 'green',
+    };
+
+    return (
+        <div>
+            <h1 style={style}>You passed</h1>
+        </div>
+    );
+}
+
+export default PassMessage;
+
+3)FAILMESSAGE.JS
+import React from "react";
+import App from "./App";
+
+function FailMessage() {
+    return (
+        <div>
+            <h1 style={{
+                textAlign: 'center',
+                color: 'red'
+            }}>You failed</h1>
+        </div>
+    );
+}
+export default FailMessage;
+
+4)INDEX.JS
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+ReactDOM.render(<App isPass={true}/>,document.getElementById('root'));
+
+DAY-3
+5)USING CLASS COMPONENT
+APP.JS
+import React from 'react';
+import PassMessage from './PassMessage';
+import FailMessage from './FailMessage';
+
+class App extends React.Component {
+    render()
+    {
+      return (<FailMessage />);
+    }
+}
+export default App;
+
+5)TAGGING 2 CLASSES IN APP.JS
+import React from 'react';
+import PassMessage from './PassMessage';
+import FailMessage from './FailMessage';
+
+class App extends React.Component {
+    render()
+    {
+      return(
+        <div>
+          <PassMessage/>
+          <FailMessage/>
+        </div>
+      )
+    } 
+}
+export default App;
+
+6)WELCOME VISITOR AND SUBSCRIBE BUTTON
+1)PASSMessage
+import React from "react";
+import App from "./App";
+class PassMessage extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            message: "welcome visitor"
+        };
+    }
+    changeMessage() {
+        this.setState({
+            message: 'thank you for subscribing'
+        });
+    }
+    render() {
+        return (
+            <div>
+                <h1>{this.state.message}</h1>
+                <button onClick={() => this.changeMessage()}>SUBSCRIBE</button>
+            </div>
+        );
+    }
+}
+export default PassMessage;
+2)APP.JS
+import React from 'react';
+import PassMessage from './PassMessage';
+import FailMessage from './FailMessage';
+
+class App extends React.Component {
+    render()
+    {
+      return(
+        <div>
+          <PassMessage/>
+        </div>
+      )
+    } 
+}
+export default App;
+3)FORMS 
+import React, { Component } from "react";
+class PassMessage extends Component {
+    constructor() {
+        super();
+        this.state = {
+            message: "welcome visitor",
+            name: "", 
+            mobilenumber:"",
+            date:"",
+            marks:"",
+        };
+    }
+    changeMessage() {
+        this.setState({
+            message: 'thank you for subscribing'
+        });
+    }
+    render() {
+        return (
+            <div>
+                <div>
+                    <form>
+                        <label for="name">NAME:  </label>
+                        <input type="text" id="name" placeholder="enter your name" value={this.state.name} /><br></br>
+                        <label for="mobilenumber">NUMBER:  </label>
+                        <input type="number" id="mobilenumber" placeholder="enter your number" value={this.state.mobilenumber} /><br></br>
+                        <label for="date">DOB:  </label>
+                        <input type="date" id="dateofbirth" placeholder="enter your dob" value={this.state.date} /><br></br>
+                        <label for="marks">Marks:  </label>
+                        <input type="number" id="marks" placeholder="enter your marks" value={this.state.marks} /><br></br>
+                    </form>
+                </div>
+                <h1>{this.state.message}</h1>
+                <button onClick={() => this.changeMessage()}>SUBMIT</button><br></br>
+            </div>
+        );
+    }
+}
+export default PassMessage;
+
+LIST IN APP.JS
+import React from 'react';
+import PassMessage from './PassMessage';
+import FailMessage from './FailMessage';
+
+function App() {
+    const friends = [{id:1,name:"Lipeka"},{id:2,name:"Ashika"},{id:3,name:"Shanmathi"},]
+    return(
+      <div>
+        <ol>
+          {
+          friends.map((friends,index)=>(
+            <li key={index} id={index}>{friends.name}</li>
+            ))
+          }
+        </ol>
+      </div>
+
+    );
+}
+export default App;
+
+
