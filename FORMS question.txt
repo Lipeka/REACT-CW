@@ -1,0 +1,40 @@
+FORMS 
+import React, { Component } from "react";
+class PassMessage extends Component {
+    constructor() {
+        super();
+        this.state = {
+            message: "welcome visitor",
+            name: "", 
+            mobilenumber:"",
+            email:"",
+            password:"",
+        };
+    }
+    changeMessage() {
+        this.setState({
+            message: 'thank you for subscribing'
+        });
+    }
+    render() {
+        return (
+            <div>
+                <div>
+                    <form>
+                        <label for="name">NAME:  </label>
+                        <input type="text" id="name" placeholder="enter your name" value={this.state.name} /><br></br>
+                        <label for="mobilenumber">NUMBER:  </label>
+                        <input type="number" id="mobilenumber" placeholder="enter your number" value={this.state.mobilenumber} /><br></br>
+                        <label for="email">EMAIL:  </label>
+                        <input type="text" id="email" placeholder="enter your email id" value={this.state.email} /><br></br>
+                        <label for="password">PASSWORD:  </label>
+                        <input type="password" id="password" placeholder="enter your password" value={this.state.password} /><br></br>
+                    </form>
+                </div>
+                <h1>{this.state.message}</h1>
+                <button onClick={() => this.changeMessage()}>SUBMIT</button><br></br>
+            </div>
+        );
+    }
+}
+export default PassMessage;
