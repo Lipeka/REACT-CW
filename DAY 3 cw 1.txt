@@ -1,0 +1,35 @@
+import React, { useState } from 'react';
+
+const ToggleMessage = () => {
+  const [showMessage, setShowMessage] = useState(false);
+  const [storedMessage, setStoredMessage] = useState('');
+
+  const handleStoreMessage = () => {
+    const messageToStore = 'Show message';
+    setStoredMessage(messageToStore);
+    setShowMessage(true);
+  };
+
+  const handleToggleMessage = () => {
+    setShowMessage(!showMessage);
+  };
+
+  return (
+    <div>
+      <button onClick={handleStoreMessage}>Show message</button>
+
+      {showMessage && (
+        <div>
+          <button onClick={handleToggleMessage}>
+            {showMessage ? 'Hide component' : 'Show Component'}
+          </button>
+          <p>{storedMessage}</p>
+        </div>
+      )}
+
+      {showMessage && <p>Hi how are you?</p>}
+    </div>
+  );
+};
+
+export default ToggleMessage;
