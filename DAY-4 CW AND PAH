@@ -1,0 +1,123 @@
+DAY 4 CW
+import React, { useState } from 'react';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+import Button from '@mui/material/Button';
+
+const fruits = ['Apple', 'Banana', 'Orange', 'Grapes', 'Mango', 'Strawberry'];
+
+const GreetingForm = () => {
+  const [name, setName] = useState('');
+  const [selectedFruit, setSelectedFruit] = useState(null);
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = () => {
+    setSubmitted(true);
+  };
+
+  return (
+    <div>
+      <TextField
+        label="Name"
+        variant="outlined"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        fullWidth
+        margin="normal"
+      />
+
+      <Autocomplete
+        options={fruits}
+        value={selectedFruit}
+        onChange={(event, newValue) => setSelectedFruit(newValue)}
+        renderInput={(params) => (
+          <TextField {...params} label="Select a Fruit" variant="outlined" fullWidth margin="normal" />
+        )}
+      />
+
+      <Button variant="contained" color="primary" onClick={handleSubmit} style={{ marginTop: 20 }}>
+        Submit
+      </Button>
+
+      {submitted && (
+        <div style={{ marginTop: 20 }}>
+          <p>Hello, {name}!</p>
+          <p>Your favorite fruit is {selectedFruit || 'not selected'}.</p>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default GreetingForm;
+ 
+
+DAY 4 PAH
+import React, { useState } from 'react';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import TextField from '@mui/material/TextField';
+const LoginDialog = () => {
+  const [open, setOpen] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [loggedIn, setLoggedIn] = useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleLogin = () => {
+    if (username && password) {
+      setLoggedIn(true);
+      setOpen(false);
+    }
+  };
+  return (
+    <div>
+      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+        Login
+      </Button>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Login</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Please enter your username and password.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Username"
+            type="text"
+            fullWidth
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <TextField
+            margin="dense"
+            label="Password"
+            type="password"
+            fullWidth
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleLogin} color="primary">
+            Login
+          </Button>
+        </DialogActions>
+      </Dialog>
+      {loggedIn && <p>Successfully logged in!</p>}
+    </div>
+  );
+};
+export default LoginDialog;
