@@ -1,97 +1,156 @@
-//AXIOS-GET
-import axios from 'axios';
-import React, { useEffect,useState } from 'react';
-const AxiosGet = () => {
-    const [books,setBooks]=useState([]);
-    useEffect(()=>{
-        const fetchData=async()=>{
-         try{
-          const response=await axios.get("http://localhost:8080/books")
-          console.log(response.data)
-              setBooks(response.data);
-         }
-         catch(error){
-  console.log(error)
-         }};
-       fetchData();
-    },[]);
-  return (
-    <div>
-        <table>
-            <thead>
-           <tr>
-            <th>Id</th>
-            <th>Book title</th>
-            <th>Author name</th>
-           </tr>
-            </thead>
-            <tbody>
-            {books.map((book)=>(
-                <tr key={book.id}>
-                    <td>{book.id}</td>
-                    <td>{book.title}</td>
-                    <td>{book.author}</td>
-                </tr>
-            ))}
-            </tbody>
-        </table>
-        
-    </div>
-  );
-};
-export default AxiosGet;
-//FETCH-API
-import React from 'react'
-
-const FetchApi = () => {
-  const handleFetch=()=>{
-    fetch("http://localhost:8080/books")
-    .then((response)=>response.json())
-    .then((res)=>console.log(res))
-    .catch(err=>console.log(err))
-
-  }
-  return (
-    <div>
-      
-      <button onClick={handleFetch}>Fetch value</button>
-    </div>
-  );
-};
-
-export default FetchApi;
-//AXIOS-DELETE
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const AxiosDelete = () => {
-  const [bookId, setBookId] = useState("");
-  const [message, setMessage] = useState("");
+const BookList = () => {
+  const [books, setBooks] = useState([
+    { id: 1, title: 'Irrfan Khan: A Life in Movies', author: 'Shubhra Gupta' },
+    { id: 2, title: 'The World: A Family History', author: 'Simon Sebag Montefiore' },
+    { id: 3, title: 'Breaking Barriers: the Story of a Dalit Chief Secretary', author: 'Kaki Madhava Rao' },
+    { id: 4, title: 'Ambedkar: A Life', author: 'Shashi Tharoor' }
+  ]);
 
-  const handleDelete = async () => {
+  const [newBook, setNewBook] = useState({
+    id: '',
+    title: '',
+    author: ''
+  });
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
     try {
-      const response = await axios.delete(`http://localhost:8080/books/${bookId}`);
-      setMessage(`Book with ID ${bookId} deleted successfully`);
+      const response = await axios.get('https://example.com/books');
+      const data = response.data;
+      const transformedData = data.data.map(book => ({
+        id: book.id,
+        title: book.title,
+        author: book.author
+      }));
+      setBooks([...books, ...transformedData]);
     } catch (error) {
-      setMessage(`Error deleting book with ID ${bookId}`);
+      console.error('Error fetching data:', error);
     }
+  };
+
+  const handleInputChange = event => {
+    const { name, value } = event.target;
+    setNewBook({
+      ...newBook,
+      [name]: value
+    });
+  };
+
+  const handleAddBook = () => {
+    const updatedBooks = [...books, newBook];
+    setBooks(updatedBooks);
+    setNewBook({ id: '', title: '', author: '' });
   };
 
   return (
     <div>
-      <h2>Delete Books</h2>
-      <label>
-        Enter Book ID to Delete:
-        <input
-          type='text'
-          value={bookId}
-          onChange={(e) => setBookId(e.target.value)}
-        />
-      </label>
-      <button onClick={handleDelete}>Delete Book</button>
-      {message && <p>{message}</p>}
+      <h1>Book List</h1>
+      <ul>
+        {books.map(book => (
+          <li key={book.id}>
+            <strong>{book.title}</strong> by {book.author}
+          </li>
+        ))}
+      </ul>
+      <div>
+        <h2>Add a New Book</h2>
+        <form>
+          <label>
+            ID:
+            <input
+              type="text"
+              name="id"
+              value={newBook.id}
+              onChange={handleInputChange}
+            />
+          </label>
+          <br />
+          <label>
+            Title:
+            <input
+              type="text"
+              name="title"
+              value={newBook.title}
+              onChange={handleInputChange}
+            />
+          </label>
+          <br />
+          <label>
+            Author:
+            <input
+              type="text"
+              name="author"
+              value={newBook.author}
+              onChange={handleInputChange}
+            />
+          </label>
+          <br />
+          <button type="button" onClick={handleAddBook}>
+            Add Book
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
 
-export default AxiosDelete;
+export default BookList;
+
+//PAH
+import React from 'react';
+
+const withProductList = (products) => (WrappedComponent) => {
+  return class extends React.Component {
+    render() {
+      return <WrappedComponent products={products} />;
+    }
+  };
+};
+
+const ProductList = ({ products }) => (
+  <div>
+    <h2>Product List</h2>
+    <ul>
+      {products.map((product, index) => (
+        <li key={index}>
+          <img
+            src={product.imageUrl}
+            alt={product.name}
+            style={{ maxWidth: '150px', maxHeight: '150px' }} // Adjust the size as needed
+          />
+          <p>{product.name}</p>
+          <p>Price: ${product.price}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+);
+
+const sampleProducts = [
+  {
+    name: 'Apple',
+    price: 19.99,
+    imageUrl: 'https://nurserynisarga.in/wp-content/uploads/2021/08/Hot-climate-Apple.jpg',
+  },
+  {
+    name: 'Mango',
+    price: 29.99,
+    imageUrl: 'https://m.media-amazon.com/images/I/61m0sXqceLL._AC_UF1000,1000_QL80_.jpg',
+  },
+];
+
+const EnhancedProductList = withProductList(sampleProducts)(ProductList);
+const App = () => (
+  <div>
+    <EnhancedProductList />
+  </div>
+);
+
+export default App;
+
